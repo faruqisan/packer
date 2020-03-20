@@ -406,7 +406,7 @@ func TestProvisionerProvision_Inline(t *testing.T) {
 	p.config.PackerBuildName = "vmware"
 	p.config.PackerBuilderType = "iso"
 	comm := new(packer.MockCommunicator)
-	p.Prepare(config)
+	_ = p.Prepare(config)
 	err := p.Provision(context.Background(), ui, comm, make(map[string]interface{}))
 	if err != nil {
 		t.Fatal("should not have error")
@@ -537,7 +537,9 @@ func TestProvisionerProvision_SkipClean(t *testing.T) {
 		comm := new(packer.MockCommunicator)
 
 		config["skip_clean"] = tc.SkipClean
-		p.Prepare(config)
+		if err := p.Prepare(config); err != nil {
+			t.Fatalf("failed to prepare config when SkipClean is %t: %s", tc.SkipClean, err)
+		}
 		err := p.Provision(context.Background(), testUi(), comm, make(map[string]interface{}))
 		if err != nil {
 			t.Fatal("should not have error")

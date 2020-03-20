@@ -157,7 +157,7 @@ func (p *Provisioner) Prepare(raws ...interface{}) error {
 		p.config.Vars = make([]string, 0)
 	}
 
-	p.config.remoteCleanUpScriptPath = filepath.Join(filepath.Dir(p.config.RemotePath), fmt.Sprintf("packer-cleanup-%s.ps1", uuid.TimeOrderedUUID()))
+	p.config.remoteCleanUpScriptPath = fmt.Sprintf(`c:/Windows/Temp/packer-cleanup-%s.ps1`, uuid.TimeOrderedUUID())
 
 	var errs error
 	if p.config.Script != "" && len(p.config.Scripts) > 0 {
